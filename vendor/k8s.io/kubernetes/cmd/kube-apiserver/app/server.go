@@ -167,6 +167,7 @@ func CreateServerChain(completedOptions completedServerRunOptions, stopCh <-chan
 		return nil, nil, err
 	}
 
+	// Here is where kube-apiserver is configured to use this custom dialer function (go through the tunnel)
 	if DefaultProxyDialerFn != nil {
 		completedOptions.KubeletConfig.Dial = DefaultProxyDialerFn
 		completedOptions.KubeletConfig.Proxy = http.ProxyURL(nil)

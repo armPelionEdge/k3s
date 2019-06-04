@@ -19,6 +19,7 @@ func setupTunnel() http.Handler {
 	return tunnelServer
 }
 
+// Here is where a dialer is created which will proxy connections through the websocket tunnel (remotedialer)
 func setupProxyDialer(tunnelServer *remotedialer.Server) {
 	app.DefaultProxyDialerFn = utilnet.DialFunc(func(_ context.Context, network, address string) (net.Conn, error) {
 		_, port, _ := net.SplitHostPort(address)
