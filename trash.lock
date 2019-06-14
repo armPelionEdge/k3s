@@ -14,8 +14,8 @@ import:
   version: v0.8.3
 - package: github.com/alexflint/go-filemutex
   version: 72bdc8eae2aef913234599b837f5dda445ca9bd9
-- package: github.com/armPelionEdge/fog-proxy
-  version: ccd8d912dce8b66a5953e114bc91fa88b8280914
+- package: github.com/armPelionEdge/remotedialer
+  version: 20ec38853712bb6d348f0db9ac47d34c954c6b00
 - package: github.com/armon/circbuf
   version: bbbad097214e2918d8543d5201d12bfd7bca254d
 - package: github.com/beorn7/perks
@@ -312,8 +312,8 @@ import:
 - package: k8s.io/klog
   version: v0.2.0-14-g8e90cee79f8237
 - package: k8s.io/kubernetes
-  version: v1.14.1-k3s.4
-  repo: https://github.com/rancher/k3s.git
+  version: v1.14.1-k3s-arm.2
+  repo: https://github.com/armPelionEdge/k3s.git
   transitive: true
   staging: true
 - package: k8s.io/utils

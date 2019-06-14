@@ -1,4 +1,0 @@
-FROM golang
-ADD . /go/src/github.com/armPelionEdge/fog-proxy
-RUN go install github.com/armPelionEdge/fog-proxy/cmd/fp-cloud-tcp-proxy
-ENTRYPOINT [ "/go/bin/fp-cloud-tcp-proxy" ]
