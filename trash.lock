@@ -14,6 +14,8 @@ import:
   version: v0.8.3
 - package: github.com/alexflint/go-filemutex
   version: 72bdc8eae2aef913234599b837f5dda445ca9bd9
+- package: github.com/armPelionEdge/fog-proxy
+  version: ccd8d912dce8b66a5953e114bc91fa88b8280914
 - package: github.com/armon/circbuf
   version: bbbad097214e2918d8543d5201d12bfd7bca254d
 - package: github.com/beorn7/perks
