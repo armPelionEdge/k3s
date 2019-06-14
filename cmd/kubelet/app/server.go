@@ -94,6 +94,8 @@ import (
 	"k8s.io/kubernetes/pkg/version/verflag"
 	"k8s.io/kubernetes/pkg/volume/util/subpath"
 	"k8s.io/utils/exec"
+
+	"github.com/armPelionEdge/remotedialer"
 )
 
 const (
@@ -665,6 +667,13 @@ func run(s *options.KubeletServer, kubeDeps *kubelet.Dependencies, stopCh <-chan
 		klog.Warning(err)
 	}
 
+	// start fog-proxy tunnel, if enabled
+	if s.KubeletFlags.FogProxyAddress != "" {
+		klog.Infof("Starting fog-proxy tunnel (node=%s,fog-proxy-address=%s", nodeName, s.KubeletFlags.FogProxyAddress)
+
+		go RunFogProxyTunnel(nodeName, s.KubeletFlags.FogProxyAddress)
+	}
+
 	if err := RunKubelet(s, kubeDeps, s.RunOnce); err != nil {
 		return err
 	}
@@ -997,7 +1006,7 @@ func startKubelet(k kubelet.Bootstrap, podCfg *config.PodConfig, kubeCfg *kubele
 
 	// start the kubelet server
 	if enableServer {
-		go k.ListenAndServe(net.ParseIP(kubeCfg.Address), uint(kubeCfg.Port), nil, kubeDeps.Auth, kubeCfg.EnableDebuggingHandlers, kubeCfg.EnableContentionProfiling)
+		go k.ListenAndServe(net.ParseIP(kubeCfg.Address), uint(kubeCfg.Port), nil, nil, kubeCfg.EnableDebuggingHandlers, kubeCfg.EnableContentionProfiling)
 
 	}
 	if kubeCfg.ReadOnlyPort > 0 {
@@ -1177,4 +1186,12 @@ func RunDockershim(f *options.KubeletFlags, c *kubeletconfiginternal.KubeletConf
 	}
 	<-stopCh
 	return nil
+}
+
+func RunFogProxyTunnel(nodeName types.NodeName, fogProxyAddress string) {
+	headers := http.Header{
+		"X-Tunnel-ID": []string{string(nodeName)},
+	}
+
+	remotedialer.ClientConnect(fogProxyAddress, headers, nil, func(string, string) bool { return true }, nil)
 }
