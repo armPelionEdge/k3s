@@ -206,6 +206,8 @@ type KubeletFlags struct {
 	// hostIPCSources is a comma-separated list of sources from which the
 	// Kubelet allows pods to use the host ipc namespace. Defaults to "*".
 	HostIPCSources []string
+	// The address of the fog-proxy tunneling service
+	FogProxyAddress string
 }
 
 // NewKubeletFlags will create a new KubeletFlags with default values
@@ -453,6 +455,8 @@ func (f *KubeletFlags) AddFlags(mainfs *pflag.FlagSet) {
 	fs.StringSliceVar(&f.HostIPCSources, "host-ipc-sources", f.HostIPCSources, "Comma-separated list of sources from which the Kubelet allows pods to use the host ipc namespace.")
 	fs.MarkDeprecated("host-ipc-sources", "will be removed in a future version")
 
+	// PELION FLAGS
+	fs.StringVar(&f.FogProxyAddress, "fog-proxy-address", f.FogProxyAddress, "")
 }
 
 // AddKubeletConfigFlags adds flags for a specific kubeletconfig.KubeletConfiguration to the specified FlagSet
